@@ -1,0 +1,446 @@
+## SimplyHistory :: Timeline Data File
+## Format Version: 1.0
+## Parser: UI.html (JavaScript)
+##
+## ENTRY FORMAT:
+## [[ entry ]]
+## id        = unique_snake_case_id
+## year      = number (negative = BC, positive = AD)
+## year_label = display string e.g. "3.3 Million BC" or "1969 AD"
+## era       = PREHISTORIC | ANCIENT | CLASSICAL | MEDIEVAL | RENAISSANCE | INDUSTRIAL | MODERN | DIGITAL
+## title     = Event Title
+## short     = One sentence summary (shown in timeline strip)
+## body      = Full description paragraph (shown in detail panel)
+## region    = Geographic region(s), comma separated
+## tags      = comma separated keywords
+## icon      = emoji representing this event
+## [[ end ]]
+
+[[ entry ]]
+id         = stone_tools
+year       = -3300000
+year_label = 3.3 Million BC
+era        = PREHISTORIC
+title      = First Stone Tools
+short      = Early hominins craft the oldest known stone tools, reshaping survival.
+body       = In what is now Kenya, members of the genus Australopithecus — or perhaps an early Homo — struck stones together with deliberate intent, producing flakes sharp enough to cut meat from bone. These Lomekwian tools predate even Homo habilis and mark the moment our ancestors crossed from instinct into invention. Tool use accelerated brain development and fundamentally separated the human lineage from all other primates.
+region     = East Africa
+tags       = tools, prehistoric, hominins, survival, evolution
+icon       = 🪨
+[[ end ]]
+
+[[ entry ]]
+id         = fire_control
+year       = -1000000
+year_label = 1 Million BC
+era        = PREHISTORIC
+title      = Control of Fire
+short      = Hominins tame fire, transforming diet, safety, and social life forever.
+body       = Evidence from Wonderwerk Cave in South Africa suggests controlled fire use by Homo erectus around one million years ago. Fire meant cooked food — unlocking more calories and driving brain growth. It meant warmth in cold climates, protection from predators, and the first communal gathering around a hearth. Anthropologists argue fire is the invention that made us human: it extended the day, enabled storytelling, and forged the first societies.
+region     = Southern Africa
+tags       = fire, prehistoric, homo erectus, survival, society
+icon       = 🔥
+[[ end ]]
+
+[[ entry ]]
+id         = cave_painting
+year       = -40000
+year_label = 40,000 BC
+era        = PREHISTORIC
+title      = Cave Paintings & Symbolic Art
+short      = Humans leave the first visual records of their world on cave walls.
+body       = From Sulawesi in Indonesia to Lascaux in France, early Homo sapiens painted animals, handprints, and abstract symbols on cave walls using ochre, charcoal, and animal fat torches. These are not mere decoration — they represent symbolic thought, the capacity to encode meaning into an image. The Chauvet Cave in France contains paintings of lions, rhinos, and mammoths so vivid they astonished archaeologists. This is the birth of art, religion, and recorded communication.
+region     = Europe, Southeast Asia
+tags       = art, cave painting, prehistoric, symbolism, communication
+icon       = 🎨
+[[ end ]]
+
+[[ entry ]]
+id         = agriculture
+year       = -10000
+year_label = 10,000 BC
+era        = PREHISTORIC
+title      = Agricultural Revolution
+short      = Humans begin farming, ending 300,000 years of nomadic hunter-gatherer life.
+body       = In the Fertile Crescent — modern Iraq, Syria, and Turkey — and independently in China, Mesoamerica, and the Andes, humans domesticated wheat, barley, rice, maize, and animals like goats and cattle. Farming enabled food surpluses, permanent settlements, population growth, and ultimately civilization itself. It was also humanity's first great trade-off: harder labor, new diseases from animals, and social inequality entered human life alongside abundance. Everything that follows in human history flows from this moment.
+region     = Fertile Crescent, China, Mesoamerica, Andes
+tags       = agriculture, farming, neolithic, civilization, food
+icon       = 🌾
+[[ end ]]
+
+[[ entry ]]
+id         = writing_invented
+year       = -3200
+year_label = 3,200 BC
+era        = ANCIENT
+title      = Invention of Writing
+short      = Sumerians develop cuneiform, giving humanity its first written language.
+body       = In Mesopotamia (modern Iraq), Sumerian traders and administrators pressed reed styluses into clay tablets to record grain, livestock, and transactions. This proto-cuneiform evolved into one of humanity's most transformative technologies: writing. For the first time, knowledge could be stored outside a human mind, transmitted across space and time, and accumulated across generations. Writing enabled law, literature, history, and science. The Epic of Gilgamesh — the world's first great story — was written in cuneiform.
+region     = Mesopotamia
+tags       = writing, cuneiform, Sumer, language, communication, civilization
+icon       = 📜
+[[ end ]]
+
+[[ entry ]]
+id         = great_pyramid
+year       = -2560
+year_label = 2,560 BC
+era        = ANCIENT
+title      = Great Pyramid of Giza
+short      = Egypt erects a monument so precise and vast it defies easy explanation for millennia.
+body       = Under Pharaoh Khufu, approximately 20,000–30,000 workers — not slaves, but organized laborers — quarried, transported, and placed 2.3 million stone blocks averaging 2.5 tons each. The Great Pyramid stood as the world's tallest man-made structure for 3,800 years. Its construction demonstrates extraordinary organizational capacity, mathematical sophistication, and the ability of early states to mobilize enormous resources toward a single monumental goal. It remains one of the Seven Wonders of the Ancient World.
+region     = Egypt
+tags       = pyramid, Egypt, ancient, architecture, pharaoh, monument
+icon       = 🔺
+[[ end ]]
+
+[[ entry ]]
+id         = iron_age
+year       = -1200
+year_label = 1,200 BC
+era        = ANCIENT
+title      = Iron Age Begins
+short      = Iron smelting spreads, replacing bronze and transforming warfare and agriculture.
+body       = As the Bronze Age collapsed around 1200 BC in a still-debated catastrophe affecting Egypt, Greece, the Hittites, and the Levant, iron emerged as the metal of civilization's next chapter. Cheaper and more abundant than copper or tin (the components of bronze), iron transformed both the plow and the sword. Iron tools dramatically increased agricultural productivity; iron weapons democratized military power beyond elite chariot warriors. The Iron Age ushered in the classical civilizations of Greece, Rome, Persia, and the Han Dynasty.
+region     = Near East, Europe, South Asia
+tags       = iron, metallurgy, technology, warfare, agriculture, ancient
+icon       = ⚔️
+[[ end ]]
+
+[[ entry ]]
+id         = athenian_democracy
+year       = -508
+year_label = 508 BC
+era        = CLASSICAL
+title      = Athenian Democracy
+short      = Athens invents a radical system of self-governance that echoes 2,500 years forward.
+body       = Under the reformer Cleisthenes, Athens established the world's first democracy — from the Greek dēmos (people) and kratos (rule). Male citizens could vote in the Assembly, serve on juries, and hold public office by lottery, a deliberate defense against oligarchy. Although deeply limited by modern standards — women, slaves, and foreigners were excluded — Athenian democracy established the foundational idea that governments derive legitimacy from the governed. Every democracy that followed owes an intellectual debt to this Athenian experiment.
+region     = Greece
+tags       = democracy, Athens, politics, Greece, government, classical
+icon       = 🏛️
+[[ end ]]
+
+[[ entry ]]
+id         = silk_road
+year       = -130
+year_label = 130 BC
+era        = CLASSICAL
+title      = The Silk Road Opens
+short      = A vast trade network connects China to Rome, carrying goods, ideas, and disease.
+body       = When Han Dynasty Emperor Wu sent diplomat Zhang Qian westward to forge alliances, he inadvertently opened the Silk Road — a 4,000-mile web of overland and maritime routes linking China, Central Asia, Persia, Arabia, and the Roman Empire. Silk, spices, glass, and gold moved along these routes, but so did Buddhism, Islam, papermaking, gunpowder, and the Black Death. The Silk Road was humanity's first engine of globalization, demonstrating that cultures separated by deserts and mountains could shape each other profoundly across centuries.
+region     = China, Central Asia, Persia, Rome
+tags       = trade, Silk Road, globalization, China, Rome, connectivity
+icon       = 🛤️
+[[ end ]]
+
+[[ entry ]]
+id         = roman_empire
+year       = -27
+year_label = 27 BC
+era        = CLASSICAL
+title      = Roman Empire Founded
+short      = Augustus Caesar transforms Rome from republic to empire, reshaping the Western world.
+body       = After decades of civil war, Gaius Octavius — renamed Augustus — became Rome's first emperor in 27 BC, ruling a domain stretching from Britain to Mesopotamia. The Roman Empire standardized law, language, infrastructure, and administration across millions of people. Roman roads, aqueducts, concrete architecture, legal codes, and the Latin language seeded every subsequent Western civilization. Christianity spread along Roman roads. The Romance languages descend from Latin. The legal concept of innocent until proven guilty is Roman. The empire's fall in 476 AD transformed Europe for a millennium.
+region     = Europe, North Africa, Near East
+tags       = Rome, empire, Augustus, law, civilization, classical
+icon       = 🦅
+[[ end ]]
+
+[[ entry ]]
+id         = paper_china
+year       = 105
+year_label = 105 AD
+era        = CLASSICAL
+title      = Paper Invented in China
+short      = Cai Lun refines paper production, enabling knowledge to travel farther and faster.
+body       = Chinese court official Cai Lun refined earlier papermaking techniques to create an inexpensive, lightweight writing surface from bark, hemp, and rags. Paper was lighter than silk and cheaper than papyrus or parchment. It spread westward along the Silk Road, reaching the Islamic world by the 8th century and Europe by the 11th. Paper was the prerequisite for the printing press and ultimately for the information revolution. Without it, mass literacy, mass governance, and the scientific method would all have been impossible.
+region     = China
+tags       = paper, China, technology, writing, communication, classical
+icon       = 📄
+[[ end ]]
+
+[[ entry ]]
+id         = fall_of_rome
+year       = 476
+year_label = 476 AD
+era        = MEDIEVAL
+title      = Fall of the Western Roman Empire
+short      = Rome's collapse plunges Europe into the medieval period and reshapes civilization.
+body       = When Odoacer, a Germanic chieftain, deposed the last Western Roman Emperor Romulus Augustulus in 476 AD, it marked the end of a civilization that had organized Western life for five centuries. Cities shrank, trade collapsed, literacy declined, and political authority fragmented among warring kingdoms. The Church became the dominant institution preserving Roman law, Latin learning, and administrative continuity. The Eastern Roman (Byzantine) Empire survived another thousand years. Historians debate whether the fall was a catastrophe or a transformation — but it unquestionably divided the ancient and medieval worlds.
+region     = Europe
+tags       = Rome, medieval, collapse, empire, history, transition
+icon       = 🏚️
+[[ end ]]
+
+[[ entry ]]
+id         = islamic_golden_age
+year       = 800
+year_label = 800 AD
+era        = MEDIEVAL
+title      = Islamic Golden Age
+short      = Scholars in Baghdad preserve ancient knowledge and pioneer algebra, astronomy, and medicine.
+body       = From roughly 750 to 1258 AD, the Abbasid Caliphate centered in Baghdad produced one of history's great intellectual flowerings. The House of Wisdom attracted scholars from across the Islamic world who translated Greek, Persian, and Indian texts, then extended them dramatically. Al-Khwarizmi invented algebra (the word derives from his book title Al-Jabr). Ibn Sina's Canon of Medicine was a standard medical text in Europe for 600 years. Al-Battani mapped the stars with astonishing precision. Islamic scholars preserved the ancient world's knowledge and transmitted it to the European Renaissance.
+region     = Middle East, North Africa, Central Asia
+tags       = Islam, science, mathematics, medicine, medieval, knowledge
+icon       = ⭐
+[[ end ]]
+
+[[ entry ]]
+id         = magna_carta
+year       = 1215
+year_label = 1215 AD
+era        = MEDIEVAL
+title      = Magna Carta Signed
+short      = English barons force King John to accept legal limits on royal power.
+body       = At Runnymede meadow near London, King John of England set his seal to the Magna Carta — the "Great Charter" — under pressure from rebellious barons. It established for the first time that the king himself was subject to the rule of law. Key clauses protected barons and freemen from arbitrary imprisonment and guaranteed the right to a fair trial. While largely practical in its original context, the Magna Carta became the symbolic cornerstone of constitutional government, inspiring the US Constitution, the Declaration of Human Rights, and every legal tradition that limits the power of the state over the individual.
+region     = England
+tags       = law, rights, England, medieval, constitution, government
+icon       = 📋
+[[ end ]]
+
+[[ entry ]]
+id         = black_death
+year       = 1347
+year_label = 1347 AD
+era        = MEDIEVAL
+title      = The Black Death
+short      = Bubonic plague kills one-third of Europe's population and reshapes medieval society.
+body       = Arriving via Silk Road trading ships at Sicilian ports in 1347, Yersinia pestis spread across Europe with devastating speed. In five years, between 25 and 50 million people died — roughly a third of Europe's population. The economic effects were paradoxical: labor became scarce, surviving peasants commanded higher wages, and the feudal system accelerated toward collapse. The Church, unable to explain or stop the plague, lost spiritual authority. The trauma accelerated the Renaissance — a desperate reassertion of human agency and beauty in the face of mass death.
+region     = Europe, Asia, Middle East
+tags       = plague, disease, medieval, death, society, crisis
+icon       = 💀
+[[ end ]]
+
+[[ entry ]]
+id         = printing_press
+year       = 1440
+year_label = 1440 AD
+era        = RENAISSANCE
+title      = Gutenberg's Printing Press
+short      = Movable type printing makes books mass-producible, igniting the information age.
+body       = Johannes Gutenberg of Mainz combined movable metal type, oil-based ink, and a modified wine press to create a machine capable of producing books at unprecedented speed and low cost. Before Gutenberg, a Bible required a monk years to copy by hand. After, a press could produce 180 copies in weeks. Within 50 years of its invention, printing presses across Europe had produced 20 million books. The Protestant Reformation, the Scientific Revolution, and the Enlightenment all depended on the printing press to spread ideas too quickly for any authority to suppress.
+region     = Germany, Europe
+tags       = printing, Gutenberg, communication, renaissance, knowledge, books
+icon       = 🖨️
+[[ end ]]
+
+[[ entry ]]
+id         = columbus_1492
+year       = 1492
+year_label = 1492 AD
+era        = RENAISSANCE
+title      = Columbus Reaches the Americas
+short      = European contact with the Americas triggers a catastrophic and transformative collision of worlds.
+body       = When Christopher Columbus landed in the Bahamas on October 12, 1492, he initiated the Columbian Exchange — a permanent, irreversible contact between the Eastern and Western Hemispheres. European diseases killed an estimated 90% of indigenous Americans within a century — the largest demographic catastrophe in human history. In the other direction flowed maize, potatoes, tomatoes, chocolate, and tobacco, transforming European and global diets. Gold and silver from the Americas fueled European empires and proto-capitalism. The world was never again divided.
+region     = Americas, Europe, Caribbean
+tags       = Columbus, Americas, exploration, colonialism, Columbian Exchange
+icon       = ⛵
+[[ end ]]
+
+[[ entry ]]
+id         = scientific_revolution
+year       = 1543
+year_label = 1543 AD
+era        = RENAISSANCE
+title      = The Scientific Revolution
+short      = Copernicus, Galileo, and Newton overturn ancient cosmology and establish modern science.
+body       = When Copernicus published his heliocentric model in 1543, he launched a century and a half of radical intellectual upheaval. Galileo confirmed heliocentrism with a telescope and was condemned by the Church. Kepler derived the laws of planetary motion. Newton unified them all with calculus, universal gravitation, and the laws of motion. The Scientific Revolution established the experimental method — hypothesis, observation, testing, revision — as the authoritative means of understanding nature. It transferred intellectual authority from scripture and classical texts to empirical evidence, a shift whose consequences are still unfolding.
+region     = Europe
+tags       = science, Copernicus, Newton, Galileo, revolution, knowledge
+icon       = 🔭
+[[ end ]]
+
+[[ entry ]]
+id         = industrial_revolution
+year       = 1760
+year_label = 1760 AD
+era        = INDUSTRIAL
+title      = Industrial Revolution
+short      = Steam power and mechanized manufacturing transform Britain and then the world.
+body       = Beginning in Britain's textile mills and iron foundries, the Industrial Revolution replaced human and animal muscle with coal-powered steam engines at a scale impossible to overstate. James Watt's improved steam engine (1769) powered factories, locomotives, and steamships. In a single century, Britain's GDP grew six-fold. Mass urbanization followed — by 1900, more Britons lived in cities than the countryside, reversing ten thousand years of agricultural settlement patterns. Child labor, environmental devastation, and brutal working conditions were the dark costs. The Industrial Revolution created the modern economy, modern poverty, and modern environmentalism simultaneously.
+region     = Britain, Europe, North America
+tags       = industrial, steam, manufacturing, economy, Britain, technology
+icon       = ⚙️
+[[ end ]]
+
+[[ entry ]]
+id         = american_revolution
+year       = 1776
+year_label = 1776 AD
+era        = INDUSTRIAL
+title      = American Revolution & Declaration of Independence
+short      = Thirteen colonies declare independence and establish a new model of republican governance.
+body       = On July 4, 1776, the Continental Congress adopted Thomas Jefferson's Declaration of Independence, articulating that governments derive their just powers from the consent of the governed and that all men are created equal. After eight years of war against Britain, the American Republic became the first nation founded on Enlightenment principles, establishing a constitutional system of separated powers, federalism, and protected rights. The American Revolution inspired the French Revolution, Haitian Revolution, and Latin American independence movements, making it a pivotal moment in the global spread of democratic ideals.
+region     = North America
+tags       = America, revolution, independence, democracy, Enlightenment, rights
+icon       = 🗽
+[[ end ]]
+
+[[ entry ]]
+id         = french_revolution
+year       = 1789
+year_label = 1789 AD
+era        = INDUSTRIAL
+title      = French Revolution
+short      = France erupts in radical revolution, overthrowing monarchy and birthing modern politics.
+body       = Beginning with the storming of the Bastille on July 14, 1789, the French Revolution dismantled the Ancien Régime — monarchy, aristocracy, and the Church's temporal power — in a decade of extraordinary violence and idealism. The Declaration of the Rights of Man proclaimed liberty, equality, and popular sovereignty. The Reign of Terror killed thousands by guillotine. Napoleon Bonaparte emerged from the chaos and spread revolutionary legal codes across Europe. The Revolution gave us the political terms "left" and "right," the concept of nationalism, and the modern idea that ordinary people have the right to govern themselves.
+region     = France, Europe
+tags       = France, revolution, politics, liberty, Napoleon, modern
+icon       = 🔴
+[[ end ]]
+
+[[ entry ]]
+id         = charles_darwin
+year       = 1859
+year_label = 1859 AD
+era        = INDUSTRIAL
+title      = Darwin Publishes On the Origin of Species
+short      = Natural selection reframes humanity's understanding of life and our place in nature.
+body       = After 20 years gathering evidence from the Galápagos and beyond, Charles Darwin published On the Origin of Species, proposing that all life evolved through natural selection — the gradual accumulation of advantageous traits across generations. The implications were staggering: humans were not a divine creation apart from nature but continuous with all living things. Evolution by natural selection is now the organizing principle of all biological science, and no serious scientific challenge to it has ever succeeded. Few books in history have more thoroughly reshaped human self-understanding.
+region     = Global
+tags       = Darwin, evolution, science, biology, nature, Victorian
+icon       = 🦎
+[[ end ]]
+
+[[ entry ]]
+id         = world_war_one
+year       = 1914
+year_label = 1914 AD
+era        = MODERN
+title      = World War I
+short      = Industrial-scale warfare kills 20 million people and breaks the old European order.
+body       = The assassination of Archduke Franz Ferdinand in Sarajevo triggered a cascade of alliances that pulled every major European power into war within weeks. For four years, industrial civilization's full productive capacity — machine guns, poison gas, artillery, tanks, aircraft — was turned toward slaughter. 17–20 million died. The Austro-Hungarian, Ottoman, Russian, and German empires all collapsed. The Treaty of Versailles imposed crushing conditions on Germany, directly breeding the resentment that Adolf Hitler would exploit. WWI was the 20th century's original catastrophe — the war that made all subsequent wars possible.
+region     = Europe, Middle East, Africa
+tags       = WWI, war, Europe, empire, modern, destruction
+icon       = 💣
+[[ end ]]
+
+[[ entry ]]
+id         = russian_revolution
+year       = 1917
+year_label = 1917 AD
+era        = MODERN
+title      = Russian Revolution
+short      = Bolsheviks overthrow the Tsar and establish the world's first communist state.
+body       = In February 1917, exhausted by WWI casualties and food shortages, Russians overthrew Tsar Nicholas II. In October, Vladimir Lenin's Bolsheviks seized power under the slogan "Peace, Land, Bread." The Soviet Union they created became a global superpower and the ideological rival to Western capitalism for 74 years. Communism's promise of worker liberation came with political terror, gulags, and famine that killed millions. The Cold War, Korean War, Vietnam War, and dozens of proxy conflicts all stemmed from the global competition between the system born in 1917 and the liberal democracies that opposed it.
+region     = Russia
+tags       = Russia, revolution, communism, Lenin, Soviet, modern
+icon       = ☭
+[[ end ]]
+
+[[ entry ]]
+id         = world_war_two
+year       = 1939
+year_label = 1939 AD
+era        = MODERN
+title      = World War II
+short      = The deadliest conflict in human history kills 70–85 million people across six years.
+body       = Adolf Hitler's invasion of Poland on September 1, 1939 began the most destructive war in history. The Holocaust systematically murdered six million Jews and millions of others. Strategic bombing erased cities. The Pacific war between the US and Japan culminated in the atomic bombings of Hiroshima and Nagasaki — the only use of nuclear weapons in warfare. When it ended in 1945, the old European empires were exhausted, the United States and Soviet Union emerged as superpowers, and the United Nations was founded. The post-war international order — NATO, the EU, the Universal Declaration of Human Rights — was built specifically to ensure WWII could never happen again.
+region     = Global
+tags       = WWII, war, Holocaust, Nazi, nuclear, modern, history
+icon       = ✈️
+[[ end ]]
+
+[[ entry ]]
+id         = atomic_bomb
+year       = 1945
+year_label = 1945 AD
+era        = MODERN
+title      = Atomic Bomb & Nuclear Age
+short      = The Manhattan Project produces a weapon that permanently alters the calculus of war.
+body       = On July 16, 1945, the first nuclear device was detonated in New Mexico's desert. Three weeks later, atomic bombs destroyed Hiroshima and Nagasaki, killing 110,000–210,000 people and forcing Japan's surrender. The nuclear age that followed was defined by mutual assured destruction — the doctrine that any nuclear exchange would annihilate both sides, creating a paradoxical stability between superpowers. Nuclear deterrence reshaped geopolitics for decades. The same physics that built the bomb also gave us nuclear power. The possibility of human extinction by our own hand entered the world and has never left it.
+region     = Global, Japan, USA
+tags       = nuclear, atomic, bomb, USA, WWII, science, weapons
+icon       = ☢️
+[[ end ]]
+
+[[ entry ]]
+id         = moon_landing
+year       = 1969
+year_label = 1969 AD
+era        = MODERN
+title      = Moon Landing
+short      = Apollo 11 lands humans on the Moon, the pinnacle of the Space Age.
+body       = On July 20, 1969, Neil Armstrong became the first human to step onto the lunar surface, saying "That's one small step for man, one giant leap for mankind." The Apollo program, employing 400,000 engineers and scientists, was a response to Soviet space dominance — Sputnik in 1957, Yuri Gagarin's orbit in 1961 — that drove the US to commit to landing on the Moon within a decade. Armstrong's footprints remain perfectly preserved in the Moon's airless vacuum. The Moon landing remains the greatest engineering achievement in human history and the moment the Earth first truly saw itself as small.
+region     = Moon, USA
+tags       = space, Moon, Apollo, NASA, Cold War, science, achievement
+icon       = 🌕
+[[ end ]]
+
+[[ entry ]]
+id         = internet_created
+year       = 1969
+year_label = 1969 AD
+era        = DIGITAL
+title      = ARPANET — The Internet is Born
+short      = A US military research network sends the first message between computers, beginning the internet.
+body       = On October 29, 1969, a message was sent between computers at UCLA and Stanford — the first data transmission on ARPANET, the US Defense Department network that evolved into the internet. The key innovation was packet switching: breaking data into small packets routed independently across networks, making the system resilient to any single point of failure (originally designed with nuclear war in mind). By the 1990s, Tim Berners-Lee's World Wide Web made the internet accessible to everyone. The internet has restructured commerce, communication, politics, culture, and warfare more thoroughly than any technology since the printing press.
+region     = USA, Global
+tags       = internet, ARPANET, technology, communication, digital, modern
+icon       = 🌐
+[[ end ]]
+
+[[ entry ]]
+id         = berlin_wall_fall
+year       = 1989
+year_label = 1989 AD
+era        = MODERN
+title      = Fall of the Berlin Wall
+short      = The Wall falls, the Cold War ends, and German reunification begins.
+body       = On November 9, 1989, East German authorities announced citizens could cross freely, and jubilant crowds began tearing down the concrete wall that had divided Berlin — and symbolized the Iron Curtain — since 1961. Within two years, the Soviet Union dissolved. The Cold War, which had structured global geopolitics for 45 years and produced the nuclear arms race, Korean War, Vietnam War, and countless proxy conflicts, effectively ended. Francis Fukuyama famously declared "the End of History." The optimism proved premature — but 1989 was genuinely one of modern history's great turning points.
+region     = Germany, Europe
+tags       = Cold War, Berlin, Germany, Soviet Union, democracy, modern
+icon       = 🧱
+[[ end ]]
+
+[[ entry ]]
+id         = world_wide_web
+year       = 1991
+year_label = 1991 AD
+era        = DIGITAL
+title      = World Wide Web Goes Public
+short      = Tim Berners-Lee opens the Web to the world, launching the information age.
+body       = On August 6, 1991, Tim Berners-Lee published the world's first website and made the World Wide Web protocol freely available to everyone. Working at CERN in Switzerland, he had invented HTML, HTTP, and URLs to help physicists share information. His decision not to patent the Web — forgoing a fortune — was one of history's great acts of technological generosity. Within a decade, the Web had restructured journalism, retail, entertainment, and social interaction. By 2024, over 5 billion people used the internet, making it humanity's most powerful communication medium in history.
+region     = Switzerland, Global
+tags       = internet, Web, Berners-Lee, digital, communication, technology
+icon       = 💻
+[[ end ]]
+
+[[ entry ]]
+id         = human_genome
+year       = 2003
+year_label = 2003 AD
+era        = DIGITAL
+title      = Human Genome Sequenced
+short      = Scientists complete the map of all 3 billion base pairs in human DNA.
+body       = The Human Genome Project — a 13-year international collaboration — published the complete sequence of human DNA in 2003. The genome contains approximately 20,000–25,000 genes encoded in 3 billion base pairs. The implications are still unfolding: personalized medicine, gene therapy, genetic disease prediction, and CRISPR gene editing all flow from this foundation. The project also revealed that humans share 98.7% of their DNA with chimpanzees and about 60% with bananas — reinforcing Darwin's insight about the continuity of all life on Earth.
+region     = Global, USA
+tags       = genetics, DNA, science, medicine, biology, digital
+icon       = 🧬
+[[ end ]]
+
+[[ entry ]]
+id         = smartphones
+year       = 2007
+year_label = 2007 AD
+era        = DIGITAL
+title      = The Smartphone Revolution
+short      = The iPhone launches and puts a networked computer in every pocket on Earth.
+body       = When Steve Jobs unveiled the iPhone on January 9, 2007, he described it as "an iPod, a phone, and an internet communicator." What he had actually built was a networked supercomputer more powerful than the computers that guided Apollo 11, that fit in a shirt pocket and sold for $499. Within 15 years, over 6 billion smartphones existed worldwide. The smartphone restructured attention, social connection, commerce, navigation, photography, music, journalism, dating, and politics. More than any invention since the printing press, it democratized access to information — while simultaneously creating new forms of addiction, misinformation, and surveillance.
+region     = Global, USA
+tags       = smartphone, iPhone, Apple, digital, technology, modern
+icon       = 📱
+[[ end ]]
+
+[[ entry ]]
+id         = ai_revolution
+year       = 2022
+year_label = 2022 AD
+era        = DIGITAL
+title      = The AI Revolution
+short      = Large language models reach the public, beginning a new technological era.
+body       = The November 2022 release of ChatGPT demonstrated that artificial intelligence had crossed a threshold: machines could now hold conversations, write code, analyze documents, and generate creative work at a level indistinguishable from human experts in many contexts. Built on transformer architectures pioneered in Google's 2017 "Attention is All You Need" paper, large language models trained on virtually all human text were deployed to hundreds of millions of users within weeks. The implications for labor, education, science, creativity, and warfare are debated intensely — but the transition into the AI era is now as certain as the transition into the internet era was in 1995.
+region     = Global, USA
+tags       = AI, technology, digital, LLM, ChatGPT, future, modern
+icon       = 🤖
+[[ end ]]

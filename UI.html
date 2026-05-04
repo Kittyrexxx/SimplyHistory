@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimplyHistory — Walk Through Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  /* ===== CSS VARIABLES ===== */
+  :root {
+    --stone:       #2a2520;
+    --stone-light: #3d3630;
+    --stone-mid:   #524840;
+    --parchment:   #f2e8d5;
+    --parchment-dark: #d4c9a8;
+    --amber:       #c8922a;
+    --amber-glow:  #e8b84b;
+    --blood:       #8b2020;
+    --moss:        #4a6741;
+    --bone:        #e8dfc8;
+    --smoke:       rgba(42,37,32,0.85);
+    --torch:       rgba(200,146,42,0.15);
+
+    --era-prehistoric: #6b5744;
+    --era-ancient:     #8b6914;
+    --era-classical:   #5c6b8b;
+    --era-medieval:    #4a5c3a;
+    --era-renaissance: #7a4a6b;
+    --era-industrial:  #5c4a3a;
+    --era-modern:      #3a4a5c;
+    --era-digital:     #2a5c4a;
+  }
+
+  /* ===== RESET ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--stone);
+    color: var(--parchment);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ===== STONE TEXTURE OVERLAY ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.07'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ===== LOADING SCREEN ===== */
+  #loading {
+    position: fixed;
+    inset: 0;
+    background: var(--stone);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    gap: 20px;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #loading.hidden { opacity: 0; visibility: hidden; }
+  #loading-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: var(--amber-glow);
+    text-shadow: 0 0 40px rgba(232,184,75,0.5);
+    letter-spacing: 0.1em;
+  }
+  #loading-sub {
+    font-family: 'IM Fell English', serif;
+    color: var(--parchment-dark);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+  .torch-flicker {
+    font-size: 3rem;
+    animation: flicker 1.8s ease-in-out infinite;
+  }
+  @keyframes flicker {
+    0%,100% { opacity: 1; transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 12px #e8b84b); }
+    25%      { opacity: 0.85; transform: scale(1.05) rotate(1deg); filter: drop-shadow(0 0 20px #e8b84b); }
+    50%      { opacity: 0.95; transform: scale(0.98) rotate(-1deg); filter: drop-shadow(0 0 8px #c8922a); }
+    75%      { opacity: 0.9; transform: scale(1.02) rotate(2deg); filter: drop-shadow(0 0 16px #e8b84b); }
+  }
+
+  /* ===== TOP NAV ===== */
+  #topnav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 64px;
+    background: linear-gradient(to bottom, rgba(18,14,10,0.98), rgba(18,14,10,0.85));
+    border-bottom: 1px solid rgba(200,146,42,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 500;
+    backdrop-filter: blur(8px);
+  }
+  #site-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    color: var(--amber-glow);
+    text-shadow: 0 0 20px rgba(232,184,75,0.4);
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    user-select: none;
+  }
+  #nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  #search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  #search-input {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(200,146,42,0.3);
+    border-radius: 4px;
+    color: var(--parchment);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.9rem;
+    padding: 7px 36px 7px 14px;
+    width: 240px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  #search-input::placeholder { color: rgba(242,232,213,0.4); }
+  #search-input:focus {
+    border-color: var(--amber);
+    background: rgba(255,255,255,0.1);
+  }
+  #search-btn {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--amber);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 2px;
+    transition: color 0.2s;
+  }
+  #search-btn:hover { color: var(--amber-glow); }
+  #search-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: rgba(26,20,14,0.98);
+    border: 1px solid rgba(200,146,42,0.4);
+    border-radius: 4px;
+    max-height: 320px;
+    overflow-y: auto;
+    display: none;
+    z-index: 600;
+    backdrop-filter: blur(12px);
+  }
+  #search-results.visible { display: block; }
+  .search-result-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(200,146,42,0.1);
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .search-result-item:hover { background: rgba(200,146,42,0.1); }
+  .search-result-icon { font-size: 1.2rem; }
+  .search-result-meta { flex: 1; }
+  .search-result-title { font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--amber-glow); }
+  .search-result-year  { font-size: 0.75rem; color: var(--parchment-dark); }
+
+  /* ===== ERA NAVIGATION RAIL ===== */
+  #era-rail {
+    position: fixed;
+    left: 0; top: 64px; bottom: 0;
+    width: 56px;
+    background: rgba(18,14,10,0.92);
+    border-right: 1px solid rgba(200,146,42,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+    gap: 4px;
+    z-index: 400;
+    overflow: hidden;
+  }
+  .era-btn {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: rgba(242,232,213,0.4);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 6px;
+    border-radius: 3px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .era-btn:hover { color: var(--amber); background: rgba(200,146,42,0.1); }
+  .era-btn.active { color: var(--amber-glow); background: rgba(200,146,42,0.15); }
+  .era-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(200,146,42,0.3);
+    margin: 2px 0;
+    transition: all 0.2s;
+  }
+  .era-dot.active { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+
+  /* ===== MAIN LAYOUT ===== */
+  #main {
+    margin-left: 56px;
+    padding-top: 64px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== HERO / ENTRANCE ===== */
+  #hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px 40px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 60%, rgba(200,146,42,0.08) 0%, transparent 65%),
+      radial-gradient(ellipse at 20% 80%, rgba(139,32,32,0.06) 0%, transparent 50%);
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 70%, var(--stone) 100%);
+    pointer-events: none;
+  }
+  .hero-torch { font-size: 2.5rem; animation: flicker 2.2s ease-in-out infinite; margin-bottom: 12px; }
+  #hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    color: var(--amber-glow);
+    text-shadow: 0 0 60px rgba(232,184,75,0.35), 0 2px 4px rgba(0,0,0,0.5);
+    line-height: 1.1;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+  #hero-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--parchment-dark);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.5;
+  }
+  #hero-cta {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid rgba(200,146,42,0.4);
+    padding: 12px 32px;
+    background: rgba(200,146,42,0.07);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.25s;
+    animation: pulse-border 3s ease-in-out infinite;
+  }
+  #hero-cta:hover {
+    background: rgba(200,146,42,0.15);
+    border-color: var(--amber-glow);
+    color: var(--amber-glow);
+    box-shadow: 0 0 24px rgba(200,146,42,0.2);
+  }
+  @keyframes pulse-border {
+    0%,100% { box-shadow: 0 0 0 rgba(200,146,42,0); }
+    50%      { box-shadow: 0 0 20px rgba(200,146,42,0.2); }
+  }
+
+  /* ===== ERA SECTIONS ===== */
+  .era-section {
+    padding: 60px 32px 20px;
+    position: relative;
+  }
+  .era-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(200,146,42,0.2);
+    position: relative;
+  }
+  .era-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0;
+    width: 120px; height: 1px;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber);
+  }
+  .era-icon { font-size: 2.5rem; filter: drop-shadow(0 0 8px rgba(200,146,42,0.4)); }
+  .era-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--amber-glow);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .era-range {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: var(--parchment-dark);
+    font-size: 0.9rem;
+    margin-top: 2px;
+  }
+
+  /* ===== TIMELINE TRACK ===== */
+  .timeline-track {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline-track::before {
+    content: '';
+    position: absolute;
+    left: 12px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(200,146,42,0.6), rgba(200,146,42,0.1));
+  }
+
+  /* ===== EVENT CARD ===== */
+  .event-card {
+    position: relative;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    cursor: pointer;
+    group: true;
+  }
+  .event-card::before {
+    content: '';
+    position: absolute;
+    left: -34px; top: 24px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--stone-mid);
+    border: 2px solid rgba(200,146,42,0.4);
+    transition: all 0.2s;
+    z-index: 2;
+  }
+  .event-card:hover::before,
+  .event-card.active::before {
+    background: var(--amber);
+    border-color: var(--amber-glow);
+    box-shadow: 0 0 12px rgba(200,146,42,0.6);
+    transform: scale(1.3);
+  }
+  .event-year-col {
+    text-align: right;
+    padding-top: 6px;
+  }
+  .event-year {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+  .event-body-col {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(200,146,42,0.12);
+    border-radius: 4px;
+    padding: 16px 20px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .event-body-col::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,146,42,0.04), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .event-card:hover .event-body-col,
+  .event-card.active .event-body-col {
+    border-color: rgba(200,146,42,0.35);
+    background: rgba(255,255,255,0.05);
+  }
+  .event-card:hover .event-body-col::before,
+  .event-card.active .event-body-col::before { opacity: 1; }
+  .event-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .event-icon { font-size: 1.4rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .event-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--bone);
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+  }
+  .event-short {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    color: rgba(242,232,213,0.6);
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(200,146,42,0.7);
+    border: 1px solid rgba(200,146,42,0.2);
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: rgba(200,146,42,0.05);
+  }
+
+  /* ===== DETAIL OVERLAY ===== */
+  #detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+  }
+  #detail-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  #detail-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(12,9,6,0.88);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+  }
+  #detail-panel {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(145deg, #231c16, #1a140e);
+    border: 1px solid rgba(200,146,42,0.35);
+    border-radius: 6px;
+    max-width: 720px;
+    width: 100%;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: 44px 48px;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(200,146,42,0.2);
+  }
+  #detail-overlay.open #detail-panel {
+    transform: translateY(0) scale(1);
+  }
+  #detail-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 48px; right: 48px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--amber), transparent);
+  }
+  #detail-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: 1px solid rgba(200,146,42,0.2);
+    color: rgba(242,232,213,0.5);
+    width: 32px; height: 32px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  #detail-close:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: rgba(200,146,42,0.1);
+  }
+  #detail-era-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid rgba(200,146,42,0.3);
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  #detail-icon { font-size: 3rem; margin-bottom: 12px; display: block; }
+  #detail-year {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  #detail-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    font-weight: 700;
+    color: var(--bone);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  #detail-divider {
+    width: 60px; height: 1px;
+    background: rgba(200,146,42,0.4);
+    margin-bottom: 20px;
+  }
+  #detail-body {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1rem;
+    color: rgba(242,232,213,0.85);
+    line-height: 1.85;
+    font-weight: 300;
+  }
+  #detail-region {
+    margin-top: 24px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: rgba(200,146,42,0.6);
+    text-transform: uppercase;
+  }
+  #detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .detail-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(200,146,42,0.15);
+  }
+  .detail-nav-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: none;
+    border: 1px solid rgba(200,146,42,0.25);
+    padding: 8px 18px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .detail-nav-btn:hover {
+    background: rgba(200,146,42,0.1);
+    border-color: var(--amber);
+  }
+  .detail-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* ===== SCROLL TO TOP ===== */
+  #scroll-top {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    width: 44px; height: 44px;
+    background: rgba(200,146,42,0.15);
+    border: 1px solid rgba(200,146,42,0.35);
+    border-radius: 3px;
+    color: var(--amber);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s, background 0.2s;
+    z-index: 300;
+  }
+  #scroll-top.visible { opacity: 1; }
+  #scroll-top:hover { background: rgba(200,146,42,0.25); }
+
+  /* ===== FOOTER ===== */
+  #footer {
+    text-align: center;
+    padding: 48px 24px;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: rgba(242,232,213,0.3);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(200,146,42,0.1);
+    margin-left: 0;
+  }
+  #footer span { color: rgba(200,146,42,0.5); }
+
+  /* ===== NOTIFICATION TOAST ===== */
+  #toast {
+    position: fixed;
+    bottom: 88px; right: 32px;
+    background: rgba(26,20,14,0.95);
+    border: 1px solid rgba(200,146,42,0.35);
+    color: var(--parchment);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    padding: 10px 18px;
+    border-radius: 3px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 900;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+  }
+  #toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== HIGHLIGHT ANIMATION ===== */
+  @keyframes highlightPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(200,146,42,0); border-color: rgba(200,146,42,0.12); }
+    30%  { box-shadow: 0 0 0 4px rgba(200,146,42,0.25); border-color: rgba(200,146,42,0.7); }
+    100% { box-shadow: 0 0 0 0 rgba(200,146,42,0); border-color: rgba(200,146,42,0.12); }
+  }
+  .event-card.highlighted .event-body-col {
+    animation: highlightPulse 1.8s ease forwards;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--stone); }
+  ::-webkit-scrollbar-thumb { background: rgba(200,146,42,0.3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(200,146,42,0.5); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    #era-rail { display: none; }
+    #main { margin-left: 0; }
+    .era-section { padding: 40px 16px 16px; }
+    .timeline-track { padding-left: 24px; }
+    .event-card { grid-template-columns: 64px 1fr; gap: 12px; }
+    #detail-panel { padding: 32px 24px; }
+    #search-input { width: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading">
+  <div class="torch-flicker">🔥</div>
+  <div id="loading-title">SimplyHistory</div>
+  <div id="loading-sub">Lighting the torches… gathering the ages…</div>
+</div>
+
+<!-- Top Navigation -->
+<nav id="topnav">
+  <div id="site-logo" onclick="scrollToTop()">⚗ SimplyHistory</div>
+  <div id="nav-right">
+    <div id="search-wrap">
+      <input type="text" id="search-input" placeholder="Search events or year…" autocomplete="off" spellcheck="false">
+      <button id="search-btn" title="Search">🔍</button>
+      <div id="search-results"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- Era Navigation Rail -->
+<nav id="era-rail" aria-label="Era navigation">
+  <!-- Populated by JS -->
+</nav>
+
+<!-- Main Content -->
+<main id="main">
+  <section id="hero">
+    <div class="hero-torch">🔥</div>
+    <h1 id="hero-title">Walk Through Time</h1>
+    <p id="hero-sub">
+      Step into the museum of human memory. From the first stone struck in the African savannah
+      to the birth of artificial minds — every age waits in the next room.
+    </p>
+    <button id="hero-cta" onclick="document.getElementById('era-PREHISTORIC').scrollIntoView({behavior:'smooth'})">
+      Enter the Exhibit ↓
+    </button>
+  </section>
+
+  <div id="timeline-container">
+    <!-- Populated by JS -->
+  </div>
+
+  <footer id="footer">
+    <div>🪨 <span>SimplyHistory</span> — A museum of human memory, rendered in light</div>
+    <div style="margin-top:6px;font-size:0.75rem;opacity:0.5;">Data file: timeline.txt · No backend · GitHub Pages</div>
+  </footer>
+</main>
+
+<!-- Detail Overlay -->
+<div id="detail-overlay" role="dialog" aria-modal="true">
+  <div id="detail-backdrop" onclick="closeDetail()"></div>
+  <div id="detail-panel">
+    <button id="detail-close" onclick="closeDetail()" aria-label="Close">✕</button>
+    <div id="detail-era-badge"></div>
+    <span id="detail-icon"></span>
+    <div id="detail-year"></div>
+    <h2 id="detail-title"></h2>
+    <div id="detail-divider"></div>
+    <p id="detail-body"></p>
+    <div id="detail-region"></div>
+    <div id="detail-tags"></div>
+    <div class="detail-nav">
+      <button class="detail-nav-btn" id="detail-prev" onclick="navigateDetail(-1)">← Previous</button>
+      <button class="detail-nav-btn" id="detail-next" onclick="navigateDetail(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll to Top -->
+<button id="scroll-top" onclick="scrollToTop()" title="Back to top" aria-label="Scroll to top">↑</button>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ===== CONFIG =====
+const TIMELINE_FILE = 'timeline.txt';
+
+const ERA_META = {
+  PREHISTORIC:  { label: 'Prehistoric',   range: '3.3 Million – 3,200 BC', icon: '🪨', color: '#6b5744' },
+  ANCIENT:      { label: 'Ancient',        range: '3,200 – 500 BC',         icon: '🏺', color: '#8b6914' },
+  CLASSICAL:    { label: 'Classical',      range: '500 BC – 500 AD',        icon: '🏛️', color: '#5c6b8b' },
+  MEDIEVAL:     { label: 'Medieval',       range: '500 – 1400 AD',          icon: '⚔️', color: '#4a5c3a' },
+  RENAISSANCE:  { label: 'Renaissance',    range: '1400 – 1700 AD',         icon: '🎨', color: '#7a4a6b' },
+  INDUSTRIAL:   { label: 'Industrial',     range: '1700 – 1900 AD',         icon: '⚙️', color: '#5c4a3a' },
+  MODERN:       { label: 'Modern',         range: '1900 – 1990 AD',         icon: '✈️', color: '#3a4a5c' },
+  DIGITAL:      { label: 'Digital',        range: '1990 AD – Present',      icon: '💻', color: '#2a5c4a' },
+};
+
+// ===== STATE =====
+let allEntries = [];
+let currentDetailIndex = null;
+
+// ===== TIMELINE.TXT PARSER =====
+function parseTimeline(raw) {
+  const entries = [];
+  const blocks = raw.split(/\[\[\s*entry\s*\]\]/i).slice(1);
+
+  for (const block of blocks) {
+    const endIdx = block.search(/\[\[\s*end\s*\]\]/i);
+    const body = endIdx !== -1 ? block.slice(0, endIdx) : block;
+    const entry = {};
+
+    for (const line of body.split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('##')) continue;
+      const eqIdx = trimmed.indexOf('=');
+      if (eqIdx === -1) continue;
+      const key   = trimmed.slice(0, eqIdx).trim();
+      const value = trimmed.slice(eqIdx + 1).trim();
+      if (key && value) entry[key] = value;
+    }
+
+    // Validate required fields
+    if (!entry.id || !entry.year || !entry.title || !entry.era) continue;
+
+    entry.year = parseFloat(entry.year);
+    entry.tags = entry.tags ? entry.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+    entries.push(entry);
+  }
+
+  // Sort by year ascending
+  entries.sort((a, b) => a.year - b.year);
+  return entries;
+}
+
+// ===== BUILD ERA RAIL =====
+function buildEraRail(eras) {
+  const rail = document.getElementById('era-rail');
+  rail.innerHTML = '';
+
+  for (const eraKey of eras) {
+    const meta = ERA_META[eraKey] || { label: eraKey, icon: '📌', color: '#888' };
+    const dot = document.createElement('div');
+    dot.className = 'era-dot';
+    dot.dataset.era = eraKey;
+
+    const btn = document.createElement('button');
+    btn.className = 'era-btn';
+    btn.dataset.era = eraKey;
+    btn.textContent = meta.label;
+    btn.title = meta.range || '';
+    btn.onclick = () => {
+      const el = document.getElementById(`era-${eraKey}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    rail.appendChild(dot);
+    rail.appendChild(btn);
+  }
+}
+
+// ===== BUILD TIMELINE DOM =====
+function buildTimeline(entries) {
+  const container = document.getElementById('timeline-container');
+  container.innerHTML = '';
+
+  // Group by era preserving order
+  const eraOrder = [];
+  const eraGroups = {};
+  for (const e of entries) {
+    if (!eraGroups[e.era]) {
+      eraGroups[e.era] = [];
+      eraOrder.push(e.era);
+    }
+    eraGroups[e.era].push(e);
+  }
+
+  buildEraRail(eraOrder);
+
+  for (const eraKey of eraOrder) {
+    const meta = ERA_META[eraKey] || { label: eraKey, icon: '📌', range: '' };
+    const eraEntries = eraGroups[eraKey];
+
+    const section = document.createElement('section');
+    section.className = 'era-section';
+    section.id = `era-${eraKey}`;
+    section.dataset.era = eraKey;
+
+    section.innerHTML = `
+      <div class="era-header">
+        <span class="era-icon">${meta.icon}</span>
+        <div>
+          <div class="era-name">${meta.label}</div>
+          <div class="era-range">${meta.range}</div>
+        </div>
+      </div>
+      <div class="timeline-track" id="track-${eraKey}"></div>
+    `;
+
+    container.appendChild(section);
+
+    const track = section.querySelector(`#track-${eraKey}`);
+
+    for (const entry of eraEntries) {
+      const globalIdx = allEntries.indexOf(entry);
+      const card = buildCard(entry, globalIdx);
+      track.appendChild(card);
+    }
+  }
+}
+
+function buildCard(entry, globalIdx) {
+  const card = document.createElement('div');
+  card.className = 'event-card';
+  card.id = `card-${entry.id}`;
+  card.dataset.index = globalIdx;
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-label', `${entry.title} — ${entry.year_label}`);
+
+  const yearDisplay = entry.year_label || (entry.year < 0 ? `${Math.abs(entry.year).toLocaleString()} BC` : `${entry.year} AD`);
+  const tagsHtml = entry.tags.slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('');
+
+  card.innerHTML = `
+    <div class="event-year-col">
+      <div class="event-year">${yearDisplay}</div>
+    </div>
+    <div class="event-body-col">
+      <div class="event-header">
+        <span class="event-icon">${entry.icon || '📌'}</span>
+        <div class="event-title">${entry.title}</div>
+      </div>
+      <div class="event-short">${entry.short || ''}</div>
+      <div class="event-tags">${tagsHtml}</div>
+    </div>
+  `;
+
+  card.onclick = () => openDetail(globalIdx);
+  card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') openDetail(globalIdx); };
+
+  return card;
+}
+
+// ===== DETAIL PANEL =====
+function openDetail(index) {
+  currentDetailIndex = index;
+  const entry = allEntries[index];
+  if (!entry) return;
+
+  const meta = ERA_META[entry.era] || { label: entry.era };
+  const yearDisplay = entry.year_label || (entry.year < 0 ? `${Math.abs(entry.year).toLocaleString()} BC` : `${entry.year} AD`);
+
+  document.getElementById('detail-era-badge').textContent = meta.label;
+  document.getElementById('detail-icon').textContent = entry.icon || '📌';
+  document.getElementById('detail-year').textContent = yearDisplay;
+  document.getElementById('detail-title').textContent = entry.title;
+  document.getElementById('detail-body').textContent = entry.body || '';
+  document.getElementById('detail-region').textContent = entry.region ? `📍 ${entry.region}` : '';
+
+  const tagsEl = document.getElementById('detail-tags');
+  tagsEl.innerHTML = (entry.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+
+  document.getElementById('detail-prev').disabled = index <= 0;
+  document.getElementById('detail-next').disabled = index >= allEntries.length - 1;
+
+  // Highlight card
+  document.querySelectorAll('.event-card').forEach(c => c.classList.remove('active', 'highlighted'));
+  const card = document.getElementById(`card-${entry.id}`);
+  if (card) {
+    card.classList.add('active');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('detail-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  if (currentDetailIndex !== null) {
+    const entry = allEntries[currentDetailIndex];
+    document.querySelectorAll('.event-card').forEach(c => c.classList.remove('active'));
+    currentDetailIndex = null;
+  }
+}
+
+function navigateDetail(dir) {
+  if (currentDetailIndex === null) return;
+  const next = currentDetailIndex + dir;
+  if (next >= 0 && next < allEntries.length) openDetail(next);
+}
+
+// ===== SEARCH =====
+function initSearch() {
+  const input  = document.getElementById('search-input');
+  const btn    = document.getElementById('search-btn');
+  const results= document.getElementById('search-results');
+
+  function doSearch() {
+    const q = input.value.trim().toLowerCase();
+    results.innerHTML = '';
+    if (!q || q.length < 2) { results.classList.remove('visible'); return; }
+
+    const matches = allEntries.filter(e => {
+      const yearStr = (e.year_label || '').toLowerCase();
+      return (
+        e.title.toLowerCase().includes(q) ||
+        (e.short || '').toLowerCase().includes(q) ||
+        (e.tags || []).some(t => t.toLowerCase().includes(q)) ||
+        yearStr.includes(q) ||
+        (e.era || '').toLowerCase().includes(q)
+      );
+    }).slice(0, 8);
+
+    if (!matches.length) {
+      results.innerHTML = `<div class="search-result-item" style="opacity:0.5;cursor:default">No results found</div>`;
+    } else {
+      for (const entry of matches) {
+        const item = document.createElement('div');
+        item.className = 'search-result-item';
+        item.innerHTML = `
+          <span class="search-result-icon">${entry.icon || '📌'}</span>
+          <div class="search-result-meta">
+            <div class="search-result-title">${entry.title}</div>
+            <div class="search-result-year">${entry.year_label || entry.year} · ${ERA_META[entry.era]?.label || entry.era}</div>
+          </div>
+        `;
+        item.onclick = () => {
+          jumpToEntry(entry);
+          results.classList.remove('visible');
+          input.value = '';
+        };
+        results.appendChild(item);
+      }
+    }
+
+    results.classList.add('visible');
+  }
+
+  input.addEventListener('input', doSearch);
+  btn.addEventListener('click', doSearch);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { results.classList.remove('visible'); input.blur(); }
+    if (e.key === 'Enter' && results.querySelectorAll('.search-result-item').length === 1) {
+      results.querySelector('.search-result-item').click();
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!document.getElementById('search-wrap').contains(e.target)) {
+      results.classList.remove('visible');
+    }
+  });
+}
+
+function jumpToEntry(entry) {
+  const card = document.getElementById(`card-${entry.id}`);
+  if (!card) return;
+
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // Brief highlight
+  card.classList.remove('highlighted');
+  void card.offsetWidth; // reflow
+  card.classList.add('highlighted');
+  setTimeout(() => card.classList.remove('highlighted'), 2200);
+
+  showToast(`Jumped to: ${entry.title}`);
+}
+
+// ===== ERA RAIL ACTIVE STATE =====
+function initScrollSpy() {
+  const sections = document.querySelectorAll('.era-section');
+  const observer = new IntersectionObserver(entries => {
+    for (const obs of entries) {
+      if (obs.isIntersecting) {
+        const era = obs.target.dataset.era;
+        document.querySelectorAll('.era-btn').forEach(b => b.classList.toggle('active', b.dataset.era === era));
+        document.querySelectorAll('.era-dot').forEach(d => d.classList.toggle('active', d.dataset.era === era));
+      }
+    }
+  }, { rootMargin: '-10% 0px -80% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+}
+
+// ===== SCROLL TO TOP =====
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('scroll-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ===== TOAST =====
+function showToast(msg, duration = 2400) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.getElementById('search-input').focus();
+  }
+  if (document.getElementById('detail-overlay').classList.contains('open')) {
+    if (e.key === 'ArrowLeft')  navigateDetail(-1);
+    if (e.key === 'ArrowRight') navigateDetail(1);
+  }
+});
+
+// ===== MAIN INIT =====
+async function init() {
+  try {
+    const response = await fetch(TIMELINE_FILE, { cache: 'no-cache' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${TIMELINE_FILE} not found`);
+    const raw = await response.text();
+
+    allEntries = parseTimeline(raw);
+
+    if (!allEntries.length) throw new Error('No valid entries parsed from timeline.txt');
+
+    buildTimeline(allEntries);
+    initSearch();
+    initScrollSpy();
+
+    // Hide loading
+    const loading = document.getElementById('loading');
+    loading.classList.add('hidden');
+
+  } catch (err) {
+    console.error('SimplyHistory load error:', err);
+    document.getElementById('loading').innerHTML = `
+      <div style="color:#c8922a;font-family:'Cinzel',serif;font-size:1.1rem;max-width:480px;text-align:center;padding:24px">
+        <div style="font-size:2rem;margin-bottom:12px">⚠️</div>
+        <strong>Could not load timeline.txt</strong>
+        <p style="margin-top:12px;opacity:0.7;font-family:'Source Serif 4',serif;font-size:0.9rem">
+          Make sure <code>timeline.txt</code> is in the same folder as <code>UI.html</code>.<br>
+          ${err.message}
+        </p>
+        <p style="margin-top:16px;opacity:0.5;font-size:0.75rem">
+          Note: You must serve via a web server — file:// protocol blocks fetch().<br>
+          Use GitHub Pages, Live Server, or: <code>python3 -m http.server</code>
+        </p>
+      </div>
+    `;
+  }
+}
+
+init();
+</script>
+</body>
+</html>
